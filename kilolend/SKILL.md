@@ -56,21 +56,101 @@ Send natural language prompts to execute on-chain actions.
 
 All actions are executed using your agent wallet.
 
-## 🧠 Common Patterns
+## 🔌 API Reference
 
-Typical workflows users follow:
+### Get User Information
+**GET `/user-info`**
+Retrieve your user address and AI wallet address. Useful for verifying your setup.
 
-1. **Earn Yield**  
-   Check rates → Supply assets → Monitor earnings
+```bash
+curl -X GET "https://api.kilolend.xyz/user-info" \
+  -H "Authorization: Bearer $KILOLEND_KEY"
+```
 
-2. **Borrow Funds**  
-   Check collateral → Borrow safely → Track health factor
+**Response:**
+```json
+{
+  "user_address": "0x1234...",
+  "ai_wallet_address": "0x5678..."
+}
+```
 
-3. **Portfolio Management**  
-   View balances → Adjust positions → Withdraw or repay
+---
 
-4. **Automated Actions**  
-   Agents rebalance, optimize yield, or manage risk
+### Chat & Execute Transactions
+**POST `/stream`**
+Send natural language prompts to execute DeFi actions. Streams responses in real-time.
+
+```bash
+curl -X POST "https://api.kilolend.xyz/stream" \
+  -H "Authorization: Bearer $KILOLEND_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Check my wallet balance",
+    "chain_id": 8217
+  }' \
+  --no-buffer
+```
+
+**Required fields:**
+- `prompt` → Your natural language request
+- `chain_id` → Target blockchain (8217 for KAIA, 96 for KUB, 42793 for Etherlink)
+
+---
+
+### Manage Conversation History
+
+**POST `/messages`**
+Retrieve your conversation history.
+
+```bash
+curl -X POST "https://api.kilolend.xyz/messages" \
+  -H "Authorization: Bearer $KILOLEND_KEY" \
+  -H "Content-Type: application/json"
+```
+
+**Response:**
+```json
+{
+  "user_address": "0x1234...",
+  "messages": [
+    {
+      "message_id": 1,
+      "role": "user",
+      "content": "Check my wallet balance",
+      "created_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "message_id": 2,
+      "role": "assistant", 
+      "content": "Your wallet balance is...",
+      "created_at": "2024-01-01T00:00:01Z"
+    }
+  ],
+  "total_count": 2
+}
+```
+
+---
+
+**POST `/delete_messages`**
+Clear conversation history. Useful for starting fresh.
+
+```bash
+curl -X POST "https://api.kilolend.xyz/delete_messages" \
+  -H "Authorization: Bearer $KILOLEND_KEY" \
+  -H "Content-Type: application/json"
+```
+
+**Response:**
+```json
+{
+  "message": "Successfully deleted conversation",
+  "user_address": "0x1234...",
+  "deleted_count": 15
+}
+```
+
 
 ## 💬 Example Prompts
 
