@@ -1,8 +1,9 @@
 ---
 name: kilolend
-description: Agent-native DeFi platform for lending, borrowing, and token swaps via natural language or API. Use when user wants to supply assets for yield, borrow against collateral, swap tokens, manage DeFi positions, or execute on-chain actions through an agent wallet. Supports Etherlink, KUB Chain, and KAIA.
+description: Agent-native DeFi platform for lending, borrowing, token swaps, and on-chain portfolio management via natural language API. Always use this skill when the user wants to supply assets for yield, borrow against collateral, swap tokens, check wallet balances, monitor health factor, transfer tokens, wrap/unwrap native tokens, or manage any DeFi position on KAIA, KUB Chain, or Etherlink — even if they use plain language like "earn interest", "move my tokens", or "what's my position".
 metadata: {"clawdbot":{"emoji":"👏","homepage":"https://kilolend.xyz"}}
 ---
+
 
 # KiloLend
 
@@ -152,96 +153,84 @@ curl -X POST "https://api.kilolend.xyz/delete_messages" \
 ```
 
 
-## 💬 Example Prompts
+## 🎯 Common Workflows
 
-### Wallet & Portfolio
-Use these to inspect balances and positions:
-```
-What's my wallet balance?
-Show my portfolio value
-Get account liquidity status
-```
+Always send **one action per prompt** to avoid ambiguity.
 
-### Market Data
-Check rates before making decisions:
+### Check Portfolio
 ```
-Show current supply rates on KiloLend
-What are the borrowing rates for USDT?
-Check APY for all available markets
+"What's my wallet balance?"
+"Show my current lending positions"
+"Check my health factor"
+"What are the current supply and borrow rates?"
 ```
 
-### Lending (Earn Yield)
-Supply assets to earn interest:
+### Earn Yield (Supply)
 ```
-Supply 1000 USDT to KiloLend
-Add all my BORA tokens to earn interest
-Supply my assets for best APY
-```
-
-### Borrowing
-Borrow against your collateral:
-```
-Borrow 100 KUB against my collateral
-Borrow up to 1000 USDT safely
-Show my maximum borrowing capacity
+"Supply 100 USDT to KiloLend"
+"What's the best APY available right now?"
+"Add all my BORA tokens to earn interest"
 ```
 
-### Repayment
-Reduce or close your debt:
+### Borrow Against Collateral
 ```
-Repay 200 USDT of my loan
-Repay my entire USDT loan
-Make a partial payment
-```
-
-### Withdraw
-Redeem your supplied assets:
-```
-Withdraw my supplied KAIA
-Redeem 500 USDT from lending
-Withdraw all my tokens
+"Show my maximum borrowing capacity"
+"Borrow 50 KUB against my collateral"
+"Borrow up to 500 USDT safely"
 ```
 
-### Transfers
-Move assets between wallets:
+### Repay & Withdraw
 ```
-Send 0.5 KAIA to 0x1234...
-Transfer 100 USDT to my main wallet
-```
-
-### Risk Monitoring
-Keep your position safe:
-```
-Check my health factor
-Am I at risk of liquidation?
-Show borrowing capacity
+"Repay 200 USDT of my loan"
+"Repay my entire USDT loan"
+"Withdraw my supplied KAIA"
+"Redeem 500 USDT from lending"
 ```
 
-## ✅ Best Practices
+### Swap Tokens (KAIA & KUB only)
+```
+"Swap 10 KAIA for KLAW"
+"What's the rate to swap 100 KAIA to KLAW?"
+```
 
-- Always check balances before transactions
-- Monitor health factor when borrowing
-- Start with small amounts for testing
-- Use clear prompts (avoid ambiguity)
-- Review outputs before repeating actions
+### Transfer Tokens
+```
+"Send 0.5 KAIA to 0x1234..."
+"Transfer 100 USDT to my main wallet"
+```
 
-## ⚠️ Troubleshooting
+---
 
-**Issue: Transaction fails**
-- Check wallet balance (gas + token)
-- Verify correct chain_id
+## ⚠️ Safety Rules — Always Follow
 
-**Issue: Unexpected result**
-- Rephrase prompt more clearly
-- Avoid combining multiple actions in one prompt
+1. **Check balance first** — send "What's my wallet balance?" before any transaction
+2. **Preview swaps** — ask for the rate before executing ("What's the rate to swap X for Y?")
+3. **Monitor health factor** after any borrow — warn the user if it's low
+4. **Confirm with user** before sending irreversible prompts (swaps, borrows, transfers)
+5. **One action per prompt** — avoids ambiguous or partial execution
 
-**Issue: No response / timeout**
-- Retry request
-- Check API key and network connection
+---
 
-## 📝 Notes
+## 🪙 Token Reference
 
-- All operations are executed via your agent wallet
-- Supports natural language execution
-- Designed for both human users and AI agents
-- Enables programmable DeFi workflows
+| Token | Available On |
+|---|---|
+| USDT | KAIA, Etherlink |
+| KUSDT | KUB Chain |
+| KAIA / WKAIA | KAIA |
+| KUB / KKUB | KUB Chain |
+| XTZ / WXTZ | Etherlink |
+| BORA, MBX, SIX, stKAIA | KAIA |
+| KLAW | KAIA, KUB Chain |
+
+---
+
+## 🔧 Troubleshooting
+
+| Issue | Fix |
+|---|---|
+| Transaction fails | Check gas + token balance first |
+| Swap not available | Confirm user is on KAIA or KUB (Etherlink has no DEX) |
+| Health factor warning | Suggest repaying borrow or supplying more collateral |
+| No response / timeout | Retry the request; verify API key and `chain_id` |
+| Unexpected result | Rephrase — one action at a time, be specific |
