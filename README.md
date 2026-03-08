@@ -30,6 +30,7 @@ It provides:
 | Skill | Description |
 | ----- | ----------- |
 | [kilolend](kilolend/) | Execute DeFi actions (lend, borrow, swap, manage portfolio) using natural language on Etherlink, KUB Chain, and KAIA |
+| [token-manager](token-manager/) | Autonomously manage token supply through strategic burning using profits to reduce supply and increase token price |
 
 ## ⚙️ How It Works
 
@@ -43,6 +44,8 @@ It provides:
 ```
 openclaw-skills/
 ├── kilolend/
+│   └── SKILL.md
+├── token-manager/
 │   └── SKILL.md
 └── README.md
 ```
